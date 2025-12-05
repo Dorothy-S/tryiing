@@ -1,30 +1,52 @@
-require('dotenv').config(); //gets info from .env
-const express = require('express'); // express framework for server and routing
-const mongoose = require('mongoose'); // mongoose for MongoDB interaction
-const methodOverride = require('method-override'); // to support PUT and DELETE methods
+require('dotenv').config();
+const express = require('express');
+const mongoose = require('mongoose');
+const methodOverride = require('method-override');
+const passport = require('passport');
+const session = require('express-session');
+
 const planRoutes = require('./routes/plan');
+const authRoutes = require('./routes/authRoutes');
 
-const app = express(); // create express app
+const app = express();
 
-// Connect to MongoDB
+// Passport Config
+require('./config/passport')(passport);
+
+// MongoDB Connect
 mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 })
-.then(() => console.log('Connected to MongoDB')) //when connected prints this
-.catch(err => console.error('MongoDB connection error:', err)); //when not connected prints this
+.then(() => console.log('Connected to MongoDB'))
+.catch(err => console.error('MongoDB connection error:', err));
 
-// EJS as the templating engine
-app.set('view engine', 'ejs'); //set EJS as the template
-app.use(express.static('public')); //gets files for public folder
-app.use(express.urlencoded({ extended: true })); //
+// EJS Setup
+app.set('view engine', 'ejs');
+app.use(express.static('public'));
+app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 
-// import routes
-app.use('/', planRoutes);
+// Sessions
+app.use(session({
+  secret: 'your_secret_key',
+  resave: false,
+  saveUninitialized: false
+}));
 
-const PORT = process.env.PORT || 3000; //set port from .env or default to 3000
-// Start the server
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+// Passport
+app.use(passport.initialize());
+app.use(passport.session());
+
+// ⭐ Make user available everywhere
+app.use((req, res, next) => {
+  res.locals.user = req.user || null;
+  next();
 });
+
+// Routes
+app.use('/', planRoutes);
+app.use('/auth', authRoutes);
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
