@@ -1,0 +1,59 @@
+<!--Added Header-->
+<%- include('partials/header', {title: 'TravelPlanner - Plan Your Trip', active: 'home'}) %>
+
+<!-- Dashboard section with Image -->
+<section class="hero-section">
+    <div class="hero-overlay">
+        <div class="hero-text">
+            <h1>Organize Your Travel Plans</h1>
+            <h2>Create, manage, and access your travel itineraries from anywhere</h2>
+            <a href="/create" class="hero-btn">Create New Plan</a> <!-- button connects to create plan page-->
+        </div>
+    </div>
+</section>
+
+<!-- Travel Plans Table  -->
+<section class="plans-section">
+    <div class="container">
+        <div class="section-header">
+            <h2>Your Travel Plans</h2>  <!-- section heading -->
+        </div>
+        
+        
+        <% if (plans.length > 0) { %> <!-- Check if there are any plans to display -->
+            <div class="table-container">
+                <table class="plans-table">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Destination</th>
+                            <th>Date Created</th>
+                            <th>Actions</th> <!-- Actions column for Edit and Delete buttons -->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% plans.forEach(plan => { %>
+                            <tr> <!-- create a table row -->
+                                <td class="plan-title"><%= plan.title %></td>
+                                <td class="plan-destination"><%= plan.destination %></td>
+                                <td class="plan-date"><%= plan.dateCreated.toLocaleDateString() %></td>
+                                <td class="plan-actions">
+                                    <!-- Links to edit and delete routes for each plan -->
+                                    <a href="/edit/<%= plan._id %>" class="btn-edit">Edit</a>
+                                    <a href="/delete/<%= plan._id %>" class="btn-delete">Delete</a>
+                                </td>
+                            </tr>
+                        <% }); %>
+                    </tbody>
+                </table>
+            </div>
+        <% } else { %> <!-- Message shown if no travel plans exist -->
+            <div class="empty-message">
+                <p>No travel plans yet. <a href="/create">Create your first plan!</a></p>
+            </div>
+        <% } %>
+    </div>
+</section>
+
+<!--Added Footer-->
+<%- include('partials/footer') %>

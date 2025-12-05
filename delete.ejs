@@ -1,0 +1,25 @@
+<!--Added Header-->
+<%- include('partials/header', {title: 'Delete Plan - TravelPlanner'}) %>
+
+<section class="delete-section"> <!-- Delete Travel Plan Section -->
+    <div class="container">
+        <h2>Delete Travel Plan</h2>
+        
+        <div class="confirmation-message">
+            <p>Are you sure you want to delete the plan:</p>
+            <!-- Displaying the plan title and destination for confirmation -->
+            <p><strong>"<%= plan.title %>"</strong> for <strong><%= plan.destination %></strong>?</p>
+            <p>This action cannot be undone.</p>
+        </div>
+        <!-- Form to confirm deletion of the plan -->
+        <form action="/delete/<%= plan._id %>?_method=DELETE" method="POST" class="delete-form">
+            <div class="form-actions">
+                <button type="submit" class="btn-delete-large">Yes, Delete Plan</button>
+                <a href="/" class="btn-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+</section>
+
+<!--Added Footer-->
+<%- include('partials/footer') %>

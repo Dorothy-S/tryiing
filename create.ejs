@@ -1,0 +1,30 @@
+<!--Added Header-->
+<%- include('partials/header', {title: 'Create New Plan - TravelPlanner', active: 'create'}) %>
+
+<section class="create-section">
+    <div class="container">
+        <h2>Create New Travel Plan</h2>
+        <!-- Form to create a new travel plan -->
+        <form action="/create" method="POST" class="plan-form">
+            <div class="form-group">
+                <label for="title">Plan Title:</label>
+                <input type="text" id="title" name="title" required placeholder="Enter plan title">
+            </div>
+            <div class="form-group">
+                <label for="destination">Destination:</label>
+                <input type="text" id="destination" name="destination" required placeholder="Enter destination">
+            </div>
+            <div class="form-group">
+                <label for="content">Plan Details:</label>
+                <textarea id="content" name="content" rows="8" required placeholder="Enter your travel plan details here..."></textarea>
+            </div>
+            <div class="form-actions">
+                <button type="submit" class="btn-primary">Save Plan</button>
+                <a href="/" class="btn-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+</section>
+
+<!--Added Footer-->
+<%- include('partials/footer') %>

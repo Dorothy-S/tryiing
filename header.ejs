@@ -1,0 +1,22 @@
+<!--Header-->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title><%= title || 'TravelPlanner' %></title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <h1>Travel<span>Planner</span></h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="/" class="<%= (typeof active !== 'undefined' && active === 'home') ? 'active' : '' %>">Dashboard</a></li>
+                <li><a href="/create" class="<%= (typeof active !== 'undefined' && active === 'create') ? 'active' : '' %>">Create Plan</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
